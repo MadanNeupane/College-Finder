@@ -86,7 +86,8 @@ python manage.py runserver
 ## Hosted on:
 
 - [GitHub](https://github.com/MadanNeupane/College-Finder)
-- Heroku: [Live](https://collegefinderapp.herokuapp.com/)
+- ~~Heroku: [Live](https://collegefinderapp.herokuapp.com/)~~
+- Render: [Live](https://college-finder-m534.onrender.com/)
 
 ## License
 

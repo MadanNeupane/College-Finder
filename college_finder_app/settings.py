@@ -27,7 +27,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ['DEBUG']
 
 ADMINS = [('College Finder', 'collegefinderapplication@gmail.com')]
 
@@ -201,34 +200,48 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 # DATABASES['default'] = dj_database_url.config(
 #     conn_max_age=600, ssl_require=True)
 
-if not DEBUG:
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    SECURE_SSL_REDIRECT = True
-    CSRF_COOKIE_SECURE = True
-    SESSION_COOKIE_SECURE = True
+DEBUG = False # Change to True (os.environ['DEBUG'] for local, if you're testing)
+# if not DEBUG:
+#     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+#     SECURE_SSL_REDIRECT = True
+#     CSRF_COOKIE_SECURE = True
+#     SESSION_COOKIE_SECURE = True
 
-    ALLOWED_HOSTS = ['*']
+#     ALLOWED_HOSTS = ['*']
 
-    # Static files
-    STATICFILES_STORAGE = 'college_finder_app.storage.WhiteNoiseStaticFilesStorage'
+#     # Static files
+#     STATICFILES_STORAGE = 'college_finder_app.storage.WhiteNoiseStaticFilesStorage'
 
-    # Database
-    DATABASE_URL = os.environ['DATABASE_URL']
-    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-    DATABASES['default'] = dj_database_url.config(
-        conn_max_age=600, ssl_require=True)
-else:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+#     # Database
+#     DATABASE_URL = os.environ['DATABASE_URL']
+#     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+#     DATABASES['default'] = dj_database_url.config(
+#         conn_max_age=600, ssl_require=True)
+# else:
+#     ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
-    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+#     STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
-    SECURE_PROXY_SSL_HEADER = None
-    SECURE_SSL_REDIRECT = False
+#     SECURE_PROXY_SSL_HEADER = None
+#     SECURE_SSL_REDIRECT = False
 
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': BASE_DIR / 'db.sqlite3',
+#         }
+#     }
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'https://college-finder-m534.onrender.com']
+
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+SECURE_PROXY_SSL_HEADER = None
+SECURE_SSL_REDIRECT = False
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
-
+}
