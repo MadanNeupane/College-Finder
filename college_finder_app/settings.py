@@ -210,10 +210,12 @@ if not DEBUG:
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
 
-    ALLOWED_HOSTS = ['https://college-finder-m534.onrender.com']
+    ALLOWED_HOSTS = ['college-finder-m534.onrender.com']
 
     # Static files
-    STATICFILES_STORAGE = 'college_finder_app.storage.WhiteNoiseStaticFilesStorage'
+    # STATICFILES_STORAGE = 'college_finder_app.storage.WhiteNoiseStaticFilesStorage'
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     DATABASES = {

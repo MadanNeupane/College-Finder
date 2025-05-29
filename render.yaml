@@ -9,12 +9,12 @@ services:
     plan: free
     name: college_finder_app
     runtime: python
-    buildCommand: './build.sh'
-    startCommand: 'python -m gunicorn college_finder_app.asgi:application -k uvicorn.workers.UvicornWorker'
+    buildCommand: "./build.sh"
+    startCommand: "python manage.py collectstatic --noinput && gunicorn college_finder_app.wsgi:application"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: college_finder_appdb
+          name: college-finder
           property: connectionString
       - key: SECRET_KEY
         generateValue: true
