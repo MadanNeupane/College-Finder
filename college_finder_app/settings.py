@@ -13,11 +13,11 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
-import django_heroku
+# import django_heroku
 import psycopg2
 import dj_database_url
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
+# import sentry_sdk
+# from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,13 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_SSL_REDIRECT = True
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-
-ALLOWED_HOSTS = ['collegefinderapp.herokuapp.com', '127.0.0.1']
+DEBUG = os.environ['DEBUG']
 
 ADMINS = [('College Finder', 'collegefinderapplication@gmail.com')]
 
@@ -163,8 +157,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'components/static'),
 ]
 
-STATICFILES_STORAGE = 'college_finder_app.storage.WhiteNoiseStaticFilesStorage'
-
 load_dotenv()
 SECRET_KEY = os.environ['SECRET_KEY']
 EMAIL_HOST = os.environ['EMAIL_HOST']
@@ -188,26 +180,55 @@ LOGOUT_REDIRECT_URL = 'login'
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Sentry
-sentry_sdk.init(
-    dsn=os.environ['dsn'],
-    integrations=[DjangoIntegration()],
+# sentry_sdk.init(
+#     dsn=os.environ['dsn'],
+#     integrations=[DjangoIntegration()],
 
-    # Set traces_sample_rate to 1.0 to capture 100%
-    # of transactions for performance monitoring.
-    # We recommend adjusting this value in production,
-    traces_sample_rate=0,
+#     # Set traces_sample_rate to 1.0 to capture 100%
+#     # of transactions for performance monitoring.
+#     # We recommend adjusting this value in production,
+#     traces_sample_rate=0,
 
-    # If you wish to associate users to errors (assuming you are using
-    # django.contrib.auth) you may enable sending PII data.
-    send_default_pii=True,
-)
+#     # If you wish to associate users to errors (assuming you are using
+#     # django.contrib.auth) you may enable sending PII data.
+#     send_default_pii=True,
+# )
 
-DATABASE_URL = os.environ['DATABASE_URL']
+# DATABASE_URL = os.environ['DATABASE_URL']
 
-conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+# conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
-DATABASES['default'] = dj_database_url.config(
-    conn_max_age=600, ssl_require=True)
+# DATABASES['default'] = dj_database_url.config(
+#     conn_max_age=600, ssl_require=True)
 
-# Activate Django-Heroku.
-django_heroku.settings(locals())
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+
+    ALLOWED_HOSTS = ['*']
+
+    # Static files
+    STATICFILES_STORAGE = 'college_finder_app.storage.WhiteNoiseStaticFilesStorage'
+
+    # Database
+    DATABASE_URL = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    DATABASES['default'] = dj_database_url.config(
+        conn_max_age=600, ssl_require=True)
+else:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+    SECURE_PROXY_SSL_HEADER = None
+    SECURE_SSL_REDIRECT = False
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
