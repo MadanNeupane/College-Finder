@@ -229,8 +229,10 @@ def profile_update_form(request):
                 mp = pickle.load(f)
 
             if profile_completed == 100:
-                chance_of_admit = float(mp.predict([[profile_obj.gre_score, profile_obj.toefl_score, profile_obj.uni_score,
-                                                     profile_obj.sop_score, profile_obj.lor_score,  profile_obj.gpa, profile_obj.research]]))
+                # chance_of_admit = float(mp.predict([[profile_obj.gre_score, profile_obj.toefl_score, profile_obj.uni_score,
+                #                                      profile_obj.sop_score, profile_obj.lor_score,  profile_obj.gpa, profile_obj.research]]))
+                chance_of_admit = float(mp.predict([[float(profile_obj.gre_score), float(profile_obj.toefl_score), float(profile_obj.uni_score),
+                                                     float(profile_obj.sop_score), float(profile_obj.lor_score),  float(profile_obj.gpa), float(profile_obj.research)]]))
             else:
                 chance_of_admit = 0
 

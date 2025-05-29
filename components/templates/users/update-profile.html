@@ -11,15 +11,26 @@
 
 <form action="{% url 'update_profile' %}" id="profile-form" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
+    <!-- if username is test_user, we don't want to allow them to change their First and Last name, and bio, due to the chance of abuse on server from public access -->
     <div class="form-group">
         <label id="firstname-label" for="first_name">First Name</label>
+        {% if request.user.username == 'test_user' %}
+        <input type="text" name="first_name" id="first_name" class="form-control abuse-prevention" value="{{ u_form.first_name.value }}"
+            placeholder="Enter your first name" readonly title="This field is read-only due to abuse potential" />
+        {% else %}
         <input type="text" name="first_name" id="first_name" class="form-control" value="{{ u_form.first_name.value }}"
             placeholder="Enter your first name" />
+        {% endif %}
     </div>
     <div class="form-group">
         <label id="lastname-label" for="last_name">Last Name</label>
+        {% if request.user.username == 'test_user' %}
+        <input type="text" name="last_name" id="last_name" class="form-control abuse-prevention" value="{{ u_form.last_name.value }}"
+            placeholder="Enter your last name" readonly title="This field is read-only due to abuse potential" />
+        {% else %}
         <input type="text" name="last_name" id="last_name" class="form-control" value="{{ u_form.last_name.value }}"
             placeholder="Enter your last name" />
+        {% endif %}
     </div>
 
     <!-- SUBJECT TO CHANGE AFTER S3 BUCKET SETUP -->
@@ -30,8 +41,14 @@
     </div> -->
     <div class="form-group">
         <p>Bio</p>
+
+        {% if request.user.username == 'test_user' %}
+        <textarea id="bio" class="input-textarea abuse-prevention" name="bio" placeholder="Add your Bio..."
+            maxlength="140" readonly title="This field is read-only due to abuse potential">{{ p_form.bio.value }}</textarea>
+        {% else %}
         <textarea id="bio" class="input-textarea" name="bio" placeholder="Add your Bio..."
             maxlength="140">{{ p_form.bio.value }}</textarea>
+        {% endif %}
     </div>
 
     <div id="academics">
@@ -55,19 +72,19 @@
         </div>
 
         <div class="form-group">
-            <label id="sop-label" for="sop_score">How strong do you think your SOP is?</label>
+            <label id="sop-label" for="sop_score">How strong do you think your SOP (Statement of Purpose) is? (From low to high confidence)</label>
             <input type="range" id="sop_score" name="sop_score" min="1" max="5" step="0.5"
                 value="{{ p_form.sop_score.value }}" />
         </div>
 
         <div class="form-group">
-            <label id="lor-label" for="lor_score">How strong do you think your Letter of Recommendation is?</label>
+            <label id="lor-label" for="lor_score">How strong do you think your Letter of Recommendation is? (From low to high confidence)</label>
             <input type="range" id="lor_score" name="lor_score" min="1" max="5" step="0.5"
                 value="{{ p_form.lor_score.value }}" />
         </div>
 
         <div class="form-group">
-            <label id="uni-label" for="uni_score">Rate your current university's reputation:</label>
+            <label id="uni-label" for="uni_score">Rate your current university's reputation (From low to high):</label>
             <input type="range" id="uni_score" name="uni_score" min="1" max="5" step="1"
                 value="{{ p_form.uni_score.value }}" />
         </div>
@@ -91,3 +108,19 @@
     </div>
 </form>
 {% endblock content %}
+
+
+{% block script %}
+<script>
+    const abusePrevention = document.querySelectorAll('.abuse-prevention');
+
+
+    for (let i = 0; i < abusePrevention.length; i++) {
+        abusePrevention[i].onclick = function() {
+            alert("This field is read-only due to abuse potential, you can change other fields to test the functionality");
+        }
+    }
+
+</script>
+
+{% endblock script %}
