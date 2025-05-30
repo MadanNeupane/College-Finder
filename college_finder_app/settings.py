@@ -213,8 +213,8 @@ if not DEBUG:
     ALLOWED_HOSTS = ['college-finder-m534.onrender.com']
 
     # Static files
-    # STATICFILES_STORAGE = 'college_finder_app.storage.WhiteNoiseStaticFilesStorage'
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    STATICFILES_STORAGE = 'college_finder_app.storage.WhiteNoiseStaticFilesStorage'
+    # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
