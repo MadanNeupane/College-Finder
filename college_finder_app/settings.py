@@ -204,6 +204,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
     # Database
 DATABASE_URL = os.environ['DATABASE_URL']
 
+
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+
 if not DEBUG:
     # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     # SECURE_SSL_REDIRECT = True
@@ -213,7 +217,7 @@ if not DEBUG:
     ALLOWED_HOSTS = ['college-finder-m534.onrender.com']
 
     # Static files
-    STATICFILES_STORAGE = 'college_finder_app.storage.WhiteNoiseStaticFilesStorage'
+    # STATICFILES_STORAGE = 'college_finder_app.storage.WhiteNoiseStaticFilesStorage'
     # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
@@ -227,7 +231,6 @@ if not DEBUG:
 else:
     ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
-    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
     SECURE_PROXY_SSL_HEADER = None
     SECURE_SSL_REDIRECT = False
