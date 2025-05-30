@@ -1,0 +1,95 @@
+.universities {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (minmax(200px, 1fr))[auto-fill];
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.university-card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 0.6rem;
+  border-radius: 0.6em;
+  border: 1.9px solid var(--grey);
+}
+
+.university-card__content {
+  line-height: 1.4rem;
+  color: var(--black-second);
+}
+
+.university-card__header {
+  text-align: center;
+  padding: 0.2em;
+}
+
+.university-card__headline {
+  font-size: 1.2rem;
+  padding-bottom: 0.4em;
+}
+
+.university-card__body {
+  margin-top: 0.5em;
+}
+
+.university-card__stats {
+  font-weight: 700;
+}
+
+.university-card__action {
+  padding-top: 0.3rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  text-align: center;
+}
+
+.university-card__btn {
+  border: 0;
+  background-color: var(--first-color);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.05rem;
+  cursor: pointer;
+  outline: none;
+}
+
+.university-card__bookmark {
+  color: var(--first-color-text);
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.university-card__content p {
+  font-weight: 600;
+}
+
+@media screen and (min-width: 730px) {
+  .universities {
+    -ms-grid-columns: (minmax(207px, 1fr))[auto-fill];
+        grid-template-columns: repeat(auto-fill, minmax(207px, 1fr));
+  }
+}
+
+@media screen and (min-width: 925px) and (max-width: 959px) {
+  .universities {
+    -ms-grid-columns: (minmax(210px, 1fr))[auto-fill];
+        grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  }
+}
+/*# sourceMappingURL=universities.css.map */

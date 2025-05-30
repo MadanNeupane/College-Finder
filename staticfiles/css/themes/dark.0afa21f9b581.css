@@ -1,0 +1,24 @@
+:root {
+    /*===== Colors =====*/
+    --first-color: #1a237e;
+    --first-color-text: #fff;
+    --first-color-light: #89aee7;
+    --second-color: #512da8;
+    --white: #131516;
+    --black: #E8E6F2;
+    --black-second: #e8e6e3;
+    --white-color: #161819;
+    --grey: #222426;
+}
+
+#body-pd {
+    background-color: var(--white);
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    color: var(--black);
+}
+
+.bx-sm {
+    color: #fff;
+}

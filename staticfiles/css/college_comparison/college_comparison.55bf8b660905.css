@@ -1,0 +1,97 @@
+.title {
+    margin-top: 0.5em;
+}
+
+.uni a {
+    color: var(--black-second);
+}
+
+.uni a:hover {
+    text-decoration: underline;
+}
+
+.table-responsive {
+    min-height: .01%;
+    overflow-x: auto;
+    margin: 1em 0;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0
+}
+
+.table td, .table th {
+    color: var(--black);
+    border: 1px solid var(--first-color-light);
+    padding: 0.5em;
+    vertical-align: top;
+    text-align: center;
+    font-weight: 600;
+}
+
+.table tr td:first-child {
+    text-align: left;
+}
+
+.table th {
+    background-color: var(--white-color);
+    font-size: 110%;
+    font-weight: 700;
+    max-height: auto;
+}
+
+/* Discard Button */
+
+#discard {
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-left: 0.5em;
+}
+
+#discard:hover {
+    color: red;
+}
+
+.table tr.even:hover td, .table tr:hover td {
+    color: var(--black-second);
+}
+
+.tg-bf {
+    font-weight: 700
+}
+
+.tg-it {
+    font-style: italic
+}
+
+.tg-left {
+    text-align: left
+}
+
+.tg-right {
+    text-align: right
+}
+
+.tg-center {
+    text-align: center
+}
+
+@media screen and (max-width:767px) {
+    .table-responsive {
+        width: 100%;
+        margin-bottom: 15px;
+        overflow-y: hidden;
+        -ms-overflow-style: -ms-autohiding-scrollbar
+    }
+    .table-responsive>.table {
+        margin-bottom: 0
+    }
+    .table-responsive>.table>tbody>tr>td, .table-responsive>.table>tbody>tr>th, .table-responsive>.table>tfoot>tr>td, .table-responsive>.table>tfoot>tr>th, .table-responsive>.table>thead>tr>td, .table-responsive>.table>thead>tr>th {
+        white-space: nowrap
+    }
+}
