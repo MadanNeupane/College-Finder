@@ -12,9 +12,9 @@ services:
     buildCommand: "./build.sh"
     startCommand: |
       python manage.py migrate &&
-      python manage.py populate_fixtures || echo "No fixtures" &&
+      (python manage.py populate_fixtures || python populate_fixtures.py || echo "No fixtures") &&
       python create_superuser.py &&
-      gunicorn college_finder_app.wsgi:application
+      gunicorn college_finder_app.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: DATABASE_URL
         fromDatabase:
