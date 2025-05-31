@@ -13,12 +13,5 @@ python manage.py makemigrations
 python manage.py migrate
 
 # Load fixture data
-python manage.py loaddata data.json || echo "No data.json fixture to load"
+python manage.py populate_fixtures || echo "No fixture data to load"
 
-# Create superuser if not exists
-python manage.py shell << END
-from django.contrib.auth import get_user_model
-User = get_user_model()
-if not User.objects.filter(username="admin").exists():
-    User.objects.create_superuser("admin", "admin@example.com", "adminpassword")
-END

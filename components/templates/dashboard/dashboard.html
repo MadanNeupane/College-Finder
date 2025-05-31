@@ -35,9 +35,13 @@
         <i class='bx bx-time bx-sm'></i>
         <div class="card__inner">
           <p class="text-primary-p">Last Signed In</p>
-          <p class="profile-stats">{% localtime on %}
-            {{ current_time }}
-            {% endlocaltime %}</p>
+          <p class="profile-stats">
+            {% if last_login_local %}
+                {{ last_login_local|date:"h:i A, M d" }}
+            {% else %}
+              Never logged in
+            {% endif %}
+          </p>
         </div>
       </div>
 

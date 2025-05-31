@@ -1,9 +1,7 @@
 from django.shortcuts import render
 import time
 from universities.models import University
-
-t = time.localtime()
-current_time = time.strftime("%I:%M %p", t)
+from django.utils.timezone import localtime
 
 try:
     universities = University.objects.all().order_by('id')
@@ -23,11 +21,18 @@ except:
 
 
 def dashboard_page(request):
+    last_login_utc = request.user.last_login
+
+    if last_login_utc:
+        last_login_local = localtime(last_login_utc)
+    else:
+        last_login_local = None
+
 
     context = {
         'title': 'Dashboard',
         'name': 'there',
-        'current_time': current_time,
+        'last_login_local': last_login_local,
         'profile_completed': 0,
         'bookmarks_count': 0,
     }

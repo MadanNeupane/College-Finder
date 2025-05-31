@@ -1,0 +1,67 @@
+[
+  {
+    "model": "blogs.post",
+    "pk": 1,
+    "fields": {
+      "title": "Top 10 Universities in the US for International Students",
+      "description": "Explore the top universities in the United States that stand out for their academic excellence, vibrant campus life, cultural diversity, and comprehensive support systems tailored specifically for international students. This guide delves into programs, scholarship opportunities, student services, and tips to help you make the best choice for your higher education journey abroad.",
+      "image_url": "https://placedog.net/500/280?id=1",
+      "posted_on": "2025-01-01T10:00:00Z",
+      "author": 2,
+      "slug": "top-universities-us-international-students",
+      "tags": ["US", "Universities", "Study Abroad"]
+    }
+  },
+  {
+    "model": "blogs.post",
+    "pk": 2,
+    "fields": {
+      "title": "Computer Science vs Data Science: What Should You Study?",
+      "description": "Confused about choosing between Computer Science and Data Science? This comprehensive breakdown explains the core differences between these two dynamic fields, the types of skills and knowledge you’ll gain, potential career paths, and how to align your choice with your personal interests, strengths, and long-term goals.",
+      "image_url": "https://placedog.net/500/280?id=2",
+      "posted_on": "2025-01-10T09:00:00Z",
+      "author": 2,
+      "slug": "computer-science-vs-data-science",
+      "tags": ["Courses", "Computer Science", "Data Science"]
+    }
+  },
+  {
+    "model": "blogs.post",
+    "pk": 3,
+    "fields": {
+      "title": "How to Evaluate Your Chances of Getting Into Top Universities",
+      "description": "Getting into a top university is competitive, but understanding the admissions criteria can give you an edge. This article guides you through evaluating your academic achievements, extracurricular involvement, personal essays, recommendation letters, and more, helping you realistically assess your chances and identify areas for improvement in your application.",
+      "image_url": "https://placedog.net/500/280?id=3",
+      "posted_on": "2025-01-20T11:30:00Z",
+      "author": 2,
+      "slug": "evaluate-university-admission-chances",
+      "tags": ["Admissions", "University Tips", "Profile Evaluation"]
+    }
+  },
+  {
+    "model": "blogs.post",
+    "pk": 4,
+    "fields": {
+      "title": "UK vs Canada: Which Country Should You Choose for University?",
+      "description": "Choosing between studying in the UK or Canada? This article compares key factors such as education systems, tuition costs, scholarship availability, post-graduation work permits, cultural diversity, and student lifestyle to help you make an informed decision that aligns with your academic ambitions and personal preferences.",
+      "image_url": "https://placedog.net/500/280?id=4",
+      "posted_on": "2025-02-01T08:45:00Z",
+      "author": 2,
+      "slug": "uk-vs-canada-study-abroad",
+      "tags": ["UK", "Canada", "Study Abroad"]
+    }
+  },
+  {
+    "model": "blogs.post",
+    "pk": 5,
+    "fields": {
+      "title": "Best Majors for the Future: 2025 Guide",
+      "description": "Explore a forward-looking guide to the most promising and future-proof majors for 2025 and beyond. Based on global job market trends, emerging technologies, and industry demands, this article highlights fields offering strong career growth, innovation opportunities, and the skills you’ll need to succeed in an ever-evolving world.",
+      "image_url": "https://placedog.net/500/280?id=5",
+      "posted_on": "2025-02-15T13:00:00Z",
+      "author": 2,
+      "slug": "best-future-majors-2025",
+      "tags": ["Majors", "Future Careers", "Student Guide"]
+    }
+  }
+]
