@@ -13,7 +13,7 @@ services:
     startCommand: |
       python manage.py migrate && python populate_fixtures.py &&
       python create_superuser.py &&
-      gunicorn college_finder_app.wsgi:application --bind 0.0.0.0:$PORT
+      gunicorn college_finder_app.wsgi:application
     envVars:
       - key: DATABASE_URL
         fromDatabase:
