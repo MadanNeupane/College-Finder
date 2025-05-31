@@ -27,8 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = os.environ.get('DEBUG', False)
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', False)
 
 ADMINS = [('College Finder', 'collegefinderapplication@gmail.com')]
 
@@ -57,7 +56,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -91,16 +90,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'college_finder_app.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -149,9 +138,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# Static and media settings
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'components/media')
 
 STATICFILES_DIRS = [
@@ -195,32 +185,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 #     send_default_pii=True,
 # )
 
-# DATABASE_URL = os.environ['DATABASE_URL']
 
-# conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-
-# DATABASES['default'] = dj_database_url.config(
-#     conn_max_age=600, ssl_require=True)
-    # Database
 DATABASE_URL = os.environ['DATABASE_URL']
 
 
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-
-
 if not DEBUG:
-    # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    # SECURE_SSL_REDIRECT = True
+    ALLOWED_HOSTS = ['college-finder-m534.onrender.com']
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
 
-    ALLOWED_HOSTS = ['college-finder-m534.onrender.com']
+    # ✅ Use WhiteNoise storage backend
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-    # Static files
-    # STATICFILES_STORAGE = 'college_finder_app.storage.WhiteNoiseStaticFilesStorage'
-    # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-
+    DATABASE_URL = os.environ['DATABASE_URL']
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     DATABASES = {
         'default': dj_database_url.config(
@@ -230,11 +207,7 @@ if not DEBUG:
     }
 else:
     ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-
-
-    SECURE_PROXY_SSL_HEADER = None
-    SECURE_SSL_REDIRECT = False
-
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',

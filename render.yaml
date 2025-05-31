@@ -10,7 +10,11 @@ services:
     name: college_finder_app
     runtime: python
     buildCommand: "./build.sh"
-    startCommand: "python manage.py collectstatic --noinput && gunicorn college_finder_app.wsgi:application"
+    startCommand: |
+      python manage.py migrate &&
+      python manage.py loaddata data.json || echo "No data.json" &&
+      python create_superuser.py &&
+      gunicorn college_finder_app.wsgi:application
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -18,5 +22,8 @@ services:
           property: connectionString
       - key: SECRET_KEY
         generateValue: true
+      - key: DJANGO_SUPERUSER_USERNAME
+      - key: DJANGO_SUPERUSER_EMAIL
+      - key: DJANGO_SUPERUSER_PASSWORD
       - key: WEB_CONCURRENCY
         value: 4
