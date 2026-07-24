@@ -2,8 +2,9 @@ from django.db.utils import ConnectionDoesNotExist
 from django.shortcuts import redirect, render
 from django.views.generic import View
 from django.contrib import messages
-from validate_email import validate_email
-from usernames import is_safe_username
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from django.contrib.auth.validators import UnicodeUsernameValidator
 import re
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -40,9 +41,10 @@ class RegistrationView(View):
         reg_password = request.POST.get('reg_password')
         reg_password_repeat = request.POST.get('reg_password_repeat')
 
-        if not validate_email(email):
-            messages.add_message(request, messages.ERROR,
-                                 'Please provide a valid email.')
+        try:
+            validate_email(email)
+        except ValidationError:
+            messages.error(request, 'Please provide a valid email.')
             has_error = True
 
         try:
@@ -66,9 +68,10 @@ class RegistrationView(View):
                 request, messages.ERROR, 'Username must be between 5 and 20 characters.')
             has_error = True
 
-        if not is_safe_username(reg_username):
-            messages.add_message(
-                request, messages.WARNING, f'"{reg_username}" is not allowed for username.')
+        try:
+            UnicodeUsernameValidator()(reg_username)
+        except ValidationError:
+            messages.error(request, f'"{reg_username}" is not allowed for username.')
             has_error = True
 
         if not username_pattern.match(reg_username):
@@ -259,9 +262,11 @@ def forgot_password_page(request):
 
     if request.method == 'POST':
         email_to_reset = request.POST['email-for-reset']
-        if not validate_email(email_to_reset):
-            messages.add_message(request, messages.WARNING,
-                                 'Email is invalid.')
+        try:
+            validate_email(email_to_reset)
+        except ValidationError:
+            messages.error(request, 'Please enter a valid email address')
+            return redirect('request-reset-email')
 
         user = User.objects.filter(email=email_to_reset)
         if user.exists():

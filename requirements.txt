@@ -43,8 +43,6 @@ scipy>=1.7
 threadpoolctl>=3.0
 
 # --- Validation ------------------------------------------------------------
-validate_email>=1.3
-python-usernames>=0.3
 defusedxml>=0.7               # Secure XML parsing (required by social-auth)
 
 # --- Web Servers -----------------------------------------------------------
