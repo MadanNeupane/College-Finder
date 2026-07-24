@@ -1,22 +1,10 @@
-"""college_finder_app URL Configuration
+"""college_finder_app URL Configuration"""
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/3.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.static import serve
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,8 +18,14 @@ urlpatterns = [
     path('oauth/', include('social_django.urls', namespace='social')),
 ]
 
+# --- Static files (dev only — WhiteNoise handles this in production) -------
 if settings.DEBUG:
-    urlpatterns += (
-        static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) +
-        static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    )
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+# --- Media files -----------------------------------------------------------
+# In DEBUG mode: Django's dev server serves media via the helper below.
+# In production: controlled by SERVE_MEDIA_IN_PRODUCTION in settings.
+#   True  → Django serves /media/ (fine for low-traffic hobby sites).
+#   False → Configure your reverse-proxy / CDN to serve MEDIA_ROOT instead.
+if settings.DEBUG or getattr(settings, 'SERVE_MEDIA_IN_PRODUCTION', False):
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

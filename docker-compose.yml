@@ -1,0 +1,111 @@
+# =============================================================================
+# College Finder — Docker Compose
+# =============================================================================
+#
+# Profiles:
+#   (default / no profile)  Web app only, SQLite database.
+#                           Quick start: docker compose up
+#
+#   postgres                Web app + PostgreSQL container.
+#                           docker compose --profile postgres up
+#                           Set DATABASE_URL in .env to the postgres service URL.
+#
+# Overridable env vars (set in .env or inline):
+#   PORT          Host port mapped to the web container  (default: 8000)
+#   PYTHON_VERSION  Python image tag for the build arg   (default: 3.11-slim)
+#   WORKERS       Gunicorn worker processes              (default: 2)
+#
+# Volumes:
+#   media_data    Persists uploaded media files across container restarts.
+#   pgdata        Persists PostgreSQL data (postgres profile only).
+# =============================================================================
+
+services:
+
+  # ---------------------------------------------------------------------------
+  # Web — Django application
+  # ---------------------------------------------------------------------------
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PYTHON_VERSION: ${PYTHON_VERSION:-3.11-slim}
+        PORT: ${PORT:-8000}
+        WORKERS: ${WORKERS:-2}
+    image: college-finder:latest
+    ports:
+      - "${PORT:-8000}:8000"
+    volumes:
+      # Persist media uploads across container restarts
+      - media_data:/app/components/media
+      # Mount source code for live-reload in development.
+      # Comment out this line for a production-style immutable container.
+      - .:/app
+    env_file:
+      - path: .env
+        required: false      # ok if .env doesn't exist; fall back to env vars
+    environment:
+      # Explicitly forward these so docker compose can override .env if needed
+      - DEBUG=${DEBUG:-False}
+      - PORT=${PORT:-8000}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:${PORT:-8000}/admin/login/')\""]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  # ---------------------------------------------------------------------------
+  # Database — PostgreSQL (only used with --profile postgres)
+  # ---------------------------------------------------------------------------
+  db:
+    image: postgres:16-alpine
+    profiles:
+      - postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-college_finder}
+      POSTGRES_USER: ${POSTGRES_USER:-college_finder_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme_in_dotenv}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      # Exposed so you can connect with psql / pgAdmin from the host
+      - "5432:5432"
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U ${POSTGRES_USER:-college_finder_user} -d ${POSTGRES_DB:-college_finder}
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    restart: unless-stopped
+
+# =============================================================================
+# Usage examples
+# =============================================================================
+# SQLite (simplest — no extra services):
+#   docker compose up --build
+#
+# PostgreSQL:
+#   # In .env, set:
+#   #   DATABASE_URL=postgresql://college_finder_user:changeme_in_dotenv@db:5432/college_finder
+#   #   DB_SSL_REQUIRE=False
+#   docker compose --profile postgres up --build
+#
+# Override Python version:
+#   PYTHON_VERSION=3.12-slim docker compose up --build
+#
+# Run management commands inside the container:
+#   docker compose exec web python manage.py createsuperuser
+#   docker compose exec web python manage.py shell
+#
+# Production-style (immutable image, no source mount):
+#   Comment out the ". :/app" volume, then:
+#   docker compose up --build
+
+volumes:
+  media_data:
+  pgdata:

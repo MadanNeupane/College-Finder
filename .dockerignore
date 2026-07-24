@@ -1,0 +1,71 @@
+# =============================================================================
+# .dockerignore — excluded from Docker build context
+# =============================================================================
+# Keeps the image lean and avoids leaking dev files / secrets.
+
+# Git
+.git
+.gitignore
+.github
+
+# Python artefacts
+__pycache__
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info
+.eggs
+dist
+build
+*.manifest
+*.spec
+
+# Virtual environments
+env/
+venv/
+.venv/
+ENV/
+pythonenv*/
+
+# Secrets and local config
+.env
+*.env
+!.env.example
+
+# Test & coverage
+.pytest_cache
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# Local DB (use a volume or DATABASE_URL instead)
+db.sqlite3
+db.sqlite3-journal
+
+# Static collected files (collectstatic runs inside Dockerfile)
+staticfiles/
+
+# Media uploads (use a named volume)
+components/media/
+
+# IDE & OS artefacts
+.idea/
+.vscode/
+*.DS_Store
+Thumbs.db
+*.prof
+
+# Documentation & non-runtime files
+*.md
+*.gif
+*.gif
+walkthrough.gif
+chance_prediction.gif
+docs/
+
+# Docker files themselves (avoid unnecessary cache busting)
+Dockerfile*
+docker-compose*.yml
+.dockerignore

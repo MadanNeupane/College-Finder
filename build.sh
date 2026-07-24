@@ -1,17 +1,23 @@
 #!/usr/bin/env bash
-# Exit on error
+# =============================================================================
+# build.sh — Render.com build script
+# =============================================================================
+# Called by Render before starting the web service.
+# NOTE: makemigrations is intentionally NOT run here — migrations should be
+#       committed to the repository, not auto-generated in CI/CD.
 set -o errexit
 
-# Install dependencies
+echo "==> Installing Python dependencies..."
+pip install --upgrade pip
 pip install -r requirements.txt
 
-# Collect static files
+echo "==> Collecting static files..."
 python manage.py collectstatic --no-input
 
-# Apply migrations
-python manage.py makemigrations
-python manage.py migrate
+echo "==> Applying database migrations..."
+python manage.py migrate --no-input
 
-# Load fixture data
-python manage.py populate_fixtures || echo "No fixture data to load"
+echo "==> Loading fixture data (if any)..."
+python populate_fixtures.py || echo "No fixture data to load (skipping)."
 
+echo "==> Build complete."

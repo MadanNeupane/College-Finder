@@ -4,9 +4,11 @@
 *.pyc
 __pycache__/
 local_settings.py
-# media
 db.sqlite3
 db.sqlite3-journal
+
+# Media uploads (local disk — not committed)
+components/media/
 
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
@@ -116,6 +118,7 @@ celerybeat.pid
 
 # Environments
 .env
+!.env.example        # Keep the example template in version control
 .env/
 .venv/
 env/
@@ -124,6 +127,9 @@ ENV/
 env.bak/
 venv.bak/
 pythonenv*
+
+# Docker
+docker-compose.override.yml
 
 # Spyder project settings
 .spyderproject

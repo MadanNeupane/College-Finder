@@ -11,7 +11,7 @@ from django.db import IntegrityError
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import get_template
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import DjangoUnicodeDecodeError, force_bytes, force_text
+from django.utils.encoding import DjangoUnicodeDecodeError, force_bytes, force_str
 from .utils import generate_token
 from django.core.mail import EmailMessage
 from django.conf import settings
@@ -184,7 +184,7 @@ class LoginView(View):
 class ActivateAccountView(View):
     def get(self, request, uidb64, token):
         try:
-            user_id = force_text(urlsafe_base64_decode(uidb64))
+            user_id = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=user_id)
         except Exception as identifier:
             user = None
@@ -318,7 +318,7 @@ def reset_password_page(request, uidb64, token):
         if context['has_error'] == True:
             return render(request, 'users/reset-password.html', context)
         try:
-            user_id = force_text(urlsafe_base64_decode(uidb64))
+            user_id = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=user_id)
             user.set_password(new_password)
             user.save()
