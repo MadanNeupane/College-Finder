@@ -43,9 +43,9 @@ def main():
 
             University.objects.create(id=item["pk"], **fields)
 
-        print("✅ Universities loaded successfully.")
+        print("[SUCCESS] Universities loaded successfully.")
     except Exception as e:
-        print(f"❌ Error loading universities: {e}")
+        print(f"[ERROR] Error loading universities: {e}")
 
     # --- Blog Posts ---
     try:
@@ -64,7 +64,9 @@ def main():
 
             author = User.objects.filter(id=2).first()
             if not author:
-                raise Exception("User with ID 2 not found. Create it before running this.")
+                author = User.objects.first()
+            if not author:
+                author = User.objects.create_user('author2', 'author2@example.com', 'password123')
 
             Post.objects.create(
                 id=item["pk"],
@@ -72,9 +74,9 @@ def main():
                 **fields
             )
 
-        print("✅ Blog posts loaded successfully (tags skipped).")
+        print("[SUCCESS] Blog posts loaded successfully (tags skipped).")
     except Exception as e:
-        print(f"❌ Error loading blog posts: {e}")
+        print(f"[ERROR] Error loading blog posts: {e}")
 
 if __name__ == "__main__":
     main()
